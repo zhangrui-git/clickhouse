@@ -115,6 +115,33 @@ class Builder
 
         $limitString = $this->limit ? 'LIMIT '. $this->limit : '';
 
-        return rtrim("$columnString $formString $whereString $groupString $havingString $orderString $limitString").';';
+        $merge = [$columnString, $formString];
+        if ($whereString) {
+            array_push($merge, $whereString);
+        }
+        if ($groupString) {
+            array_push($merge, $groupString);
+        }
+        if ($havingString) {
+            array_push($merge, $havingString);
+        }
+        if ($orderString) {
+            array_push($merge, $orderString);
+        }
+        if ($limitString) {
+            array_push($merge, $limitString);
+        }
+
+        return implode(' ', $merge) . ';';
+    }
+
+    protected function runSelect()
+    {
+        return $this->connection->select($this->toSql());
+    }
+
+    public function getConnection()
+    {
+        return $this->connection;
     }
 }

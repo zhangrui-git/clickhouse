@@ -17,7 +17,6 @@ class ClickHouseServiceProvider extends ServiceProvider
         $this->app->singleton('clickhouse.connection', function ($app) {
             /** @var Container $app */
             $config = $app->make('config')->get('database.clickhouse');
-            var_dump($config);
             /** @var ConnectionFactory $factory */
             $factory = $app['clickhouse.factory'];
             return $factory->make($config);
