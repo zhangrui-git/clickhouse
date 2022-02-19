@@ -47,8 +47,12 @@ class Connection implements ConnectionInterface
         return $this->database;
     }
 
-    public function connection($name = null)
+    public function connection(string $name = 'default')
     {
-
+        if (isset($this->connections[$name])) {
+            return $this->connections[$name];
+        } else {
+            return $this->connections[$name] = $this->pdo->connect($this->config);
+        }
     }
 }

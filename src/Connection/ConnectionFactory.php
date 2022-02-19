@@ -1,11 +1,11 @@
 <?php
 
-namespace zhangrui\clickhouse\Connectors;
+namespace zhangrui\clickhouse\Connection;
 
 
 use Illuminate\Contracts\Container\Container;
-use zhangrui\clickhouse\Connection\Connection;
-use zhangrui\clickhouse\Connection\MySqlConnection;
+use zhangrui\clickhouse\Connectors\ConnectorInterface;
+use zhangrui\clickhouse\Connectors\MySqlConnector;
 
 class ConnectionFactory
 {
@@ -36,7 +36,7 @@ class ConnectionFactory
         $pdo = $this->createConnector($config);
         switch ($config['driver']) {
             case 'mysql':
-                return new MySqlConnection($pdo, $config['database']);
+                return new MySqlConnection($pdo, $config['database'], $config['prefix'], $config);
         }
 
         throw new \Exception("Unsupported driver [{$config['driver']}].");
