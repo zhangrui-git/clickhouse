@@ -4,7 +4,6 @@ namespace zhangrui\clickhouse;
 
 
 use Illuminate\Support\Facades\Facade;
-use zhangrui\clickhouse\Query\Builder;
 
 /**
  * @method static Builder table(string $table)

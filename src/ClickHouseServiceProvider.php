@@ -1,6 +1,6 @@
 <?php
 
-namespace zhangrui\clickhouse\ServiceProvider;
+namespace zhangrui\clickhouse;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;

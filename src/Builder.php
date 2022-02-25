@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 
-namespace zhangrui\clickhouse\Query;
+namespace zhangrui\clickhouse;
 
 
+use zhangrui\clickhouse\Connection\Connection;
 use zhangrui\clickhouse\Connection\ConnectionInterface;
 
 class Builder
@@ -86,6 +87,16 @@ class Builder
         return $this;
     }
 
+    protected function runSelect()
+    {
+        return $this->connection->select($this->toSql());
+    }
+
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
     public function toSql()
     {
         $columnString = 'SELECT '. implode(',', $this->columns);
@@ -115,33 +126,23 @@ class Builder
 
         $limitString = $this->limit ? 'LIMIT '. $this->limit : '';
 
-        $merge = [$columnString, $formString];
+        $sql = [$columnString, $formString];
         if ($whereString) {
-            array_push($merge, $whereString);
+            array_push($sql, $whereString);
         }
         if ($groupString) {
-            array_push($merge, $groupString);
+            array_push($sql, $groupString);
         }
         if ($havingString) {
-            array_push($merge, $havingString);
+            array_push($sql, $havingString);
         }
         if ($orderString) {
-            array_push($merge, $orderString);
+            array_push($sql, $orderString);
         }
         if ($limitString) {
-            array_push($merge, $limitString);
+            array_push($sql, $limitString);
         }
 
-        return implode(' ', $merge) . ';';
-    }
-
-    protected function runSelect()
-    {
-        return $this->connection->select($this->toSql());
-    }
-
-    public function getConnection()
-    {
-        return $this->connection;
+        return implode(' ', $sql) . ';';
     }
 }

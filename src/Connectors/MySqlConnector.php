@@ -5,7 +5,10 @@ namespace zhangrui\clickhouse\Connectors;
 
 class MySqlConnector implements ConnectorInterface
 {
-
+    /**
+     * @param array $config
+     * @return \PDO
+     */
     public function connect(array $config)
     {
         $dsn = $this->getDsn($config);

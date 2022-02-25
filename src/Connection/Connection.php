@@ -4,19 +4,19 @@ namespace zhangrui\clickhouse\Connection;
 
 
 use zhangrui\clickhouse\Connectors\ConnectorInterface;
-use zhangrui\clickhouse\Query\Builder;
+use zhangrui\clickhouse\Builder;
 
 class Connection implements ConnectionInterface
 {
-    protected $pdo;
+    protected $connector;
     protected $connections = [];
     protected $database;
     protected $tablePrefix = '';
     protected $config = [];
 
-    public function __construct(ConnectorInterface $pdo, $database = '', $tablePrefix = '', array $config = [])
+    public function __construct(ConnectorInterface $connector, $database = '', $tablePrefix = '', array $config = [])
     {
-        $this->pdo = $pdo;
+        $this->connector = $connector;
         $this->database = $database;
         $this->tablePrefix = $tablePrefix;
         $this->config = $config;
@@ -52,7 +52,7 @@ class Connection implements ConnectionInterface
         if (isset($this->connections[$name])) {
             return $this->connections[$name];
         } else {
-            return $this->connections[$name] = $this->pdo->connect($this->config);
+            return $this->connections[$name] = $this->connector->connect($this->config);
         }
     }
 }
