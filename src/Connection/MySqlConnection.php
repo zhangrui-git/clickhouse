@@ -9,4 +9,16 @@ class MySqlConnection extends Connection
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
     }
+
+    public function select($query)
+    {
+        /** @var \PDO $conn */
+        $conn = $this->connection();
+        $statement = $conn->query($query);
+        if ($statement === false) {
+            return $statement;
+        } else {
+            return $statement->fetchAll();
+        }
+    }
 }

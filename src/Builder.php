@@ -87,6 +87,48 @@ class Builder
         return $this;
     }
 
+    public function get()
+    {
+        return $result = $this->runSelect();
+    }
+
+    public function value(string $column)
+    {
+        $this->select([$column]);
+        $this->limit("1");
+        return $this->runSelect();
+    }
+
+    public function sum(string $column)
+    {
+        $this->select(["SUM($column)"]);
+        return $this->runSelect();
+    }
+
+    public function avg(string $column)
+    {
+        $this->select(["AVG($column)"]);
+        return $this->runSelect();
+    }
+
+    public function count()
+    {
+        $this->select(['count(*)']);
+        return $this->runSelect();
+    }
+
+    public function min(string $column)
+    {
+        $this->select(["MIN($column)"]);
+        return $this->runSelect();
+    }
+
+    public function max(string $column)
+    {
+        $this->select(["MAX($column)"]);
+        return $this->runSelect();
+    }
+
     protected function runSelect()
     {
         return $this->connection->select($this->toSql());

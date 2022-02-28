@@ -6,10 +6,10 @@ namespace zhangrui\clickhouse\Connection;
 use zhangrui\clickhouse\Connectors\ConnectorInterface;
 use zhangrui\clickhouse\Builder;
 
-class Connection implements ConnectionInterface
+abstract class Connection implements ConnectionInterface
 {
     protected $connector;
-    protected $connections = [];
+    protected $connection;
     protected $database;
     protected $tablePrefix = '';
     protected $config = [];
@@ -32,27 +32,21 @@ class Connection implements ConnectionInterface
         return new Builder($this);
     }
 
-    public function select($query)
-    {
-        // TODO: Implement select() method.
-    }
-
-    public function insert($query)
-    {
-        // TODO: Implement insert() method.
-    }
+    abstract public function select($query);
 
     public function getDatabaseName()
     {
         return $this->database;
     }
 
-    public function connection(string $name = 'default')
+    /**
+     * @return mixed
+     */
+    public function connection()
     {
-        if (isset($this->connections[$name])) {
-            return $this->connections[$name];
-        } else {
-            return $this->connections[$name] = $this->connector->connect($this->config);
+        if (is_null($this->connection)) {
+            $this->connection = $this->connector->connect($this->config);
         }
+        return $this->connection;
     }
 }

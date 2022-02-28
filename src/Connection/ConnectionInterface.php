@@ -12,7 +12,5 @@ interface ConnectionInterface
 
     public function select($query);
 
-    public function insert($query);
-
     public function getDatabaseName();
 }
