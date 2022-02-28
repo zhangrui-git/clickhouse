@@ -6,19 +6,18 @@ declare(strict_types=1);
 namespace zhangrui\clickhouse;
 
 
-use zhangrui\clickhouse\Connection\Connection;
 use zhangrui\clickhouse\Connection\ConnectionInterface;
 
 class Builder
 {
-    public $connection;
-    public $from;
-    public $columns = [];
-    public $where = [];
-    public $group = [];
-    public $having;
-    public $order = [];
-    public $limit;
+    protected $connection;
+    protected $from;
+    protected $columns = [];
+    protected $where = [];
+    protected $group = [];
+    protected $having;
+    protected $order = [];
+    protected $limit;
 
     public function __construct(ConnectionInterface $connection)
     {
@@ -127,11 +126,6 @@ class Builder
     {
         $this->select(["MAX($column)"]);
         return $this->runSelect();
-    }
-
-    protected function runSelect()
-    {
-        return $this->connection->select($this->toSql());
     }
 
     public function getConnection()
